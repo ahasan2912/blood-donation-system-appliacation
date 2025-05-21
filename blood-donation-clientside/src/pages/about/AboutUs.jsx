@@ -1,9 +1,14 @@
 import React from 'react';
+import AboutBanner from '../../components/about/AboutBanner';
+import BloodDonationWork from '../../components/about/BloodDonationWork';
+import BenefitDonation from '../../components/about/BenefitDonation';
 
 const AboutUs = () => {
     return (
         <div>
-            <h1>From About Us</h1>
+            <AboutBanner/>
+            <BloodDonationWork/>
+            <BenefitDonation/>
         </div>
     );
 };

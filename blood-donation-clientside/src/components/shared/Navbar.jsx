@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { Tooltip } from 'react-tooltip';
 import { IoMdWater } from 'react-icons/io';
@@ -9,6 +9,8 @@ import { IoMdWater } from 'react-icons/io';
 const Navbar = () => {
     const { user, handleLogOut } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const {pathname} = useLocation();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
@@ -20,13 +22,33 @@ const Navbar = () => {
 
     const navItems = [
         { title: 'Home', path: '/' },
-        { title: 'Request Blood', path: '/request' },
+        { title: 'Request Blood', path: '/blood-request' },
         { title: 'Donors', path: '/donors' },
         { title: 'Blogs', path: '/blogs' },
         { title: 'About', path: '/about' },
     ]
+
+
+    // Navbar Scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 30) {
+                setIsScrolled(true)
+            } else {
+                setIsScrolled(false)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+     const navbarClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-2'}`
+
     return (
-        <header className="bg-white shadow-md sticky top-0 z-50">
+        <header className={`${navbarClasses} z-50`}>
             <nav className="container mx-auto px-4 py-3 flex justify-between items-center">
                 <Link to="/" className="flex items-center gap-2">
                     <motion.div
@@ -47,7 +69,7 @@ const Navbar = () => {
                             to={item.path}
                             className={({ isActive }) =>
                                 `font-medium hover:text-red-600 transition-colors duration-300 ${isActive ? 'text-red-600' : 'text-neutral-700'
-                                }`
+                                } ${!isScrolled && pathname==="/blogs"? "text-white" : ""}`
                             }
                         >
                             {item.title}
@@ -88,7 +110,7 @@ const Navbar = () => {
                     onClick={toggleMenu}
                     aria-label="Toggle menu"
                 >
-                    {isOpen ? <FaTimes className='text-red-500' /> : <FaBars className='text-red-500'/>}
+                    {isOpen ? <FaTimes className='text-red-500' /> : <FaBars className='text-red-500' />}
                 </button>
             </nav>
 
@@ -161,3 +183,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

@@ -68,7 +68,7 @@ const Testimonial = () => {
                   <img 
                     src={testimonials[active].image} 
                     alt={testimonials[active].name}
-                    className="w-full h-full object-cover rounded-full border-4 border-primary-100"
+                    className="w-full h-full object-cover rounded-full border-4 border-red-400"
                   />
                 </div>
                 

@@ -27,7 +27,7 @@ const Banner = () => {
                         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                             <Link
                                 to="/register"
-                                className="btn bg-[#EF4444] rounded-4xl outline- border-0"
+                                className="btn bg-[#EF4444] rounded-4xl outline- border-0 text-white"
                             >
                                 Become a Donor
                             </Link>
@@ -41,15 +41,15 @@ const Banner = () => {
 
                         {/* Stats */}
                         <div className="grid grid-cols-3 gap-4 mt-12">
-                            <div className="text-center">
+                            <div className="text-left">
                                 <p className="text-3xl font-bold text-red-500">3+</p>
                                 <p className="text-gray-600 text-sm">Lives Saved</p>
                             </div>
-                            <div className="text-center">
+                            <div className="text-left">
                                 <p className="text-3xl font-bold text-red-500">30 min</p>
                                 <p className="text-gray-600 text-sm">Process Time</p>
                             </div>
-                            <div className="text-center">
+                            <div className="text-left">
                                 <p className="text-3xl font-bold text-red-500">56 days</p>
                                 <p className="text-gray-600 text-sm">Recovery</p>
                             </div>

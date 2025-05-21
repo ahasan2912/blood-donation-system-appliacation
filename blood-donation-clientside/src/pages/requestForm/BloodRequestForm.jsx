@@ -1,8 +1,8 @@
 import React from 'react';
 
-const HomeRegisterFrom = () => {
+const BloodRequestForm = () => {
     return (
-        <section id="donor-form" className="section bg-red-600 text-white py-20 px-5">
+        <section id="donor-form" className="section bg-red-500 text-white py-20 px-5 mt-20">
             <div className="container">
                 <div className="max-w-5xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -65,7 +65,7 @@ const HomeRegisterFrom = () => {
                                         required
                                     />
                                 </div>
-                               <div>
+                                <div>
                                     <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
                                     <input
                                         type="text"
@@ -121,4 +121,4 @@ const HomeRegisterFrom = () => {
     );
 };
 
-export default HomeRegisterFrom;
+export default BloodRequestForm;
