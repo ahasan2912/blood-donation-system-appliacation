@@ -2,29 +2,60 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { IoMdPhotos } from "react-icons/io";
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState('');
-    const {loginWithGoogle, handleLogOut} = useAuth();
+    const { setUser, createUser, loginWithGoogle, updateUserProfile } = useAuth();
+    const nevigate = useNavigate();
 
+    // image related variable
+    const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+    const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
     const onSubmit = async (data) => {
+        // image upload to imgbb and then get url
+        const imageFile = { image: data.photo[0] }
+        const res = await axios.post(image_hosting_api, imageFile, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+        const photoURL = res.data.data.display_url;
+
         const userInfo = {
-             name: data.name,
-             photo: data.photo,
-             email: data.email,
-             password: data.password,
+            name: data.name,
+            photo: photoURL,
+            email: data.email,
+            password: data.password,
         }
-        
+        try {
+            const result = await createUser(userInfo.email, userInfo.password)
+            await updateUserProfile(userInfo.name, userInfo.photo)
+            setUser({ ...result.user, photoURL: userInfo.photo, displayName: userInfo.name })
+            toast.success("You have successfully registered");
+            nevigate("/")
+        }
+        catch (err) {
+            toast.error(err?.message)
+        }
+
     }
 
     // hadleGoogleLogin 
     const hadleGoogleLogin = () => {
         loginWithGoogle();
+        toast.success("Login successfully!");
+        nevigate("/")
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     // Application title
     useEffect(() => {
@@ -110,7 +141,7 @@ const Register = () => {
                                     <input
                                         id="photo"
                                         name="photo"
-                                        type="url"
+                                        type="file"
                                         className={`w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none text-gray-600`}
                                         placeholder="Upload your photo"
                                         {...register("photo", { required: true })}
@@ -173,7 +204,7 @@ const Register = () => {
                             </button>
                         </motion.div>
                     </form>
-                    <div className="divider divider-neutral my-4 text-gray-600">OR</div>
+                    <div className="divider divider-default my-4 text-gred-600">OR</div>
                     <motion.div
                         className="space-y-6"
                         variants={stepVariants}

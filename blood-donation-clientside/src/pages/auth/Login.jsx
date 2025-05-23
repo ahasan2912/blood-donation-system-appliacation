@@ -2,25 +2,41 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaEnvelope, FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from '../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState('');
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { loginWithGoogle, handleLogOut } = useAuth();
+    const { loginWithGoogle, userSignInEmail } = useAuth();
+    const navigate = useNavigate();
 
     const onSubmit = async (data) => {
         const userInfo = {
             email: data.email,
             password: data.password,
         }
+        try {
+            await userSignInEmail(userInfo.email, userInfo.password)
+            toast.success('Login successfully!');
+            navigate("/");
+        }
+        catch (err) {
+            toast.error(err.message);
+        }
     }
 
     // hadleGoogleLogin 
     const hadleGoogleLogin = () => {
         loginWithGoogle();
+        toast.success('Login successfully!');
+        navigate("/");
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     // Application title
     useEffect(() => {
@@ -100,7 +116,7 @@ const Login = () => {
                             Sign In
                         </button>
                     </form>
-                    <div className="divider divider-neutral my-4 text-gray-600">OR</div>
+                    <div className="divider divider-default my-4 text-gray-600">OR</div>
                     <div className="flex justify-center space-x-4">
                         <button onClick={hadleGoogleLogin}
                             className="btn py-6 text-base w-full bg-red-500 text-white border-0">With Google</button>
