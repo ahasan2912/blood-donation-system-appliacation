@@ -173,9 +173,9 @@ const Donors = () => {
 
     return (
         <div className="my-20 -z-50">
-            <div className='bg-red-50 py-14'>
-                <h1 className="text-4xl text-red-600 font-bold text-center">Blood Donors Directory</h1>
-                <p className="text-center text-lg max-w-3xl mx-auto my-5 text-gray-700">
+            <div className='bg-red-500 py-14'>
+                <h1 className="text-5xl font-bold text-center text-white">Blood Donors Directory</h1>
+                <p className="text-center text-lg max-w-3xl mx-auto my-5 text-gray-200">
                     Find compatible blood donors in your area. Contact available donors directly for urgent needs.
                 </p>
                 <div className="mb-8">
@@ -185,9 +185,9 @@ const Donors = () => {
                             placeholder="Search by name or city..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-lg"
+                            className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-lg text-white"
                         />
-                        <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-100" />
                     </div>
                 </div>
             </div>
@@ -205,7 +205,7 @@ const Donors = () => {
                         <p className="text-red-800 mb-4 text-sm">
                             If you need blood urgently, submit a formal request through our system to reach all eligible donors.
                         </p>
-                        <a href="/request" className="btn bg-red-500 text-white rounded-md py-[20px] w-full">Request Blood</a>
+                        <a href="/blood-request" className="btn bg-red-500 text-white rounded-md py-[20px] w-full">Request Blood</a>
                     </motion.div>
                 </div>
 
